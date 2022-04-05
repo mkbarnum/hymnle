@@ -46,6 +46,14 @@ export const SettingsModal = ({
           handleFlag={handleHighContrastMode}
           description={HIGH_CONTRAST_MODE_DESCRIPTION}
         />
+        <div className="flex justify-between gap-4 py-3" onClick={() => window.open('https://forms.gle/b3iE57sMbGzMbPYD6')}>
+          <div className="text-gray-500 dark:text-gray-300 mt-2 text-left">
+            <p className="leading-none">Contact Us</p>
+              <p className="text-xs mt-1 text-gray-500 dark:text-gray-300">
+                Provide feedback or submit a word
+              </p>
+          </div>
+        </div>
       </div>
     </BaseModal>
   )
