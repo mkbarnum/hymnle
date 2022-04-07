@@ -106,7 +106,7 @@ export const StatsModal = ({
         <i>"{scripture}"</i>
       </div>
       <div className="mt-5 sm:mt-6 dark:text-white">
-      Submit a word
+      <b><i>New! </i></b>Submit a word
       {' '}
         <a href="https://forms.gle/b3iE57sMbGzMbPYD6" target="_blank" className="underline font-bold text-blue-700" rel="noreferrer">
            here

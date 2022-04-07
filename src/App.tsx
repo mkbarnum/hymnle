@@ -249,7 +249,7 @@ function App() {
         setIsSettingsModalOpen={setIsSettingsModalOpen}
       />
       <div className="pt-2 px-1 pb-8 md:max-w-7xl w-full mx-auto sm:px-6 lg:px-8 flex flex-col grow">
-        <div className="pb-6 grow">
+        <div className="pb-2 grow">
           <Grid
             guesses={guesses}
             currentGuess={currentGuess}
@@ -257,7 +257,7 @@ function App() {
             currentRowClassName={currentRowClass}
           />
           <p className="text-xs text-gray-500 dark:text-gray-300 text-center mt-2">
-        Hint: The word relates to this week's {' '}
+        Hint: This week's {' '}
         <a
           href={CFM_URL}
           target="_blank"
