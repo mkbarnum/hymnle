@@ -39,13 +39,6 @@ $> git commit -m "[message about what your changes are]"
 $> git push
 ```
 
-
-
-
-
-
-## Projects built using this repo
-
 ## FAQ
 
 ### How can I change the length of a guess?
