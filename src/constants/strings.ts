@@ -26,10 +26,3 @@ export const TOTAL_TRIES_TEXT = 'Total tries'
 export const SUCCESS_RATE_TEXT = 'Success rate'
 export const CURRENT_STREAK_TEXT = 'Current streak'
 export const BEST_STREAK_TEXT = 'Best streak'
-const epochMs = new Date(2022, 0).valueOf()
-const now = Date.now()
-const msInDay = 86400000
-const index = Math.floor((now - epochMs) / msInDay)
-var result = Math.ceil(( index - 1) / 7) + 1;
-console.log(`The week number of the current date ${result}`);
-export const CFM_URL = `https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-individuals-and-families-old-testament-2022/${result}?lang=eng`

@@ -32,7 +32,7 @@
     "start": "react-scripts start",
     "test": "react-scripts test",
     "prepare": "husky install",
-    "deploy": "aws s3 sync build/ s3://comefollowmedle.com"
+    "deploy": "aws s3 sync build/ s3://hymnle.com"
   },
   "eslintConfig": {
     "extends": [

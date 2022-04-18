@@ -23,7 +23,7 @@ export const shareStatus = (
       lost ? 'X' : guesses.length
     }/${MAX_CHALLENGES}${isHardMode ? '*' : ''}\n\n` +
     generateEmojiGrid(guesses, getEmojiTiles(isDarkMode, isHighContrastMode))
-    + '\n\n Guess the word at https://comefollowmedle.com'
+    + '\n\n Guess the song at https://hymnle.com'
 
   const shareData = { text: textToShare }
 

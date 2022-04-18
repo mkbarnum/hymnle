@@ -12,12 +12,6 @@ import {
   SHARE_TEXT,
 } from '../../constants/strings'
 
-import {
-  scripture,
-  verse,
-  url
-} from '../../lib/words'
-
 type Props = {
   isOpen: boolean
   handleClose: () => void
@@ -98,20 +92,6 @@ export const StatsModal = ({
           </button>
         </div>
       )}
-      <div className="mt-5 sm:mt-6 dark:text-white">
-      {' '}
-        <a href={url} target="_blank" className="underline font-bold text-blue-700" rel="noreferrer">
-          {verse}
-        </a>{' '} - 
-        <i>"{scripture}"</i>
-      </div>
-      <div className="mt-5 sm:mt-6 dark:text-white">
-      <b><i>New! </i></b>Submit a word
-      {' '}
-        <a href="https://forms.gle/b3iE57sMbGzMbPYD6" target="_blank" className="underline font-bold text-blue-700" rel="noreferrer">
-           here
-        </a>.{' '}
-      </div>
     </BaseModal>
   )
 }

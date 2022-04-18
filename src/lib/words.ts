@@ -81,7 +81,7 @@ export const getWordOfDay = () => {
   const msInDay = 86400000
   const index = Math.floor((now - epochMs) / msInDay)
   const nextday = (index + 1) * msInDay + epochMs
-  const solutionDict = WORDS[index-88]
+  const solutionDict = WORDS[index-100]
 
   return {
     solution: localeAwareUpperCase(solutionDict.word),
