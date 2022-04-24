@@ -4,13 +4,14 @@ import { Keyboard } from "./components/keyboard/Keyboard";
 import { InfoModal } from "./components/modals/InfoModal";
 import { StatsModal } from "./components/modals/StatsModal";
 import { SettingsModal } from "./components/modals/SettingsModal";
+
 import {
   WIN_MESSAGES,
   GAME_COPIED_MESSAGE,
   NOT_ENOUGH_LETTERS_MESSAGE,
   WORD_NOT_FOUND_MESSAGE,
   CORRECT_WORD_MESSAGE,
-  HARD_MODE_ALERT_MESSAGE
+  HARD_MODE_ALERT_MESSAGE,
 } from "./constants/strings";
 import {
   MAX_WORD_LENGTH,
@@ -39,6 +40,8 @@ import "./App.css";
 import { AlertContainer } from "./components/alerts/AlertContainer";
 import { useAlert } from "./context/AlertContext";
 import { Navbar } from "./components/navbar/Navbar";
+import { PlayButton } from "./components/music/PlayButton";
+import { SearchBar } from "./components/music/SearchBar";
 
 function App() {
   const prefersDarkMode = window.matchMedia(
@@ -49,6 +52,7 @@ function App() {
     useAlert();
   const [currentGuess, setCurrentGuess] = useState("");
   const [isGameWon, setIsGameWon] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
@@ -256,6 +260,8 @@ function App() {
             currentRowClassName={currentRowClass}
           />
         </div>
+        <PlayButton setIsPlaying={setIsPlaying} isPlaying={isPlaying} />
+        <SearchBar></SearchBar>
         <Keyboard
           onChar={onChar}
           onDelete={onDelete}

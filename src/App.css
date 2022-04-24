@@ -1,3 +1,40 @@
 html.dark {
   background-color: rgb(15, 23, 42);
 }
+
+.round-button {
+	box-sizing: border-box;
+	display:block;
+	width:80px;
+	height:80px;
+	padding-top: 14px;
+	padding-left: 8px;
+	line-height: 20px;
+	border: 6px solid #fff;
+	border-radius: 50%;
+	color:#f5f5f5;
+	text-align:center;
+	text-decoration:none;
+	background-color: rgba(0,0,0,0.5);
+	font-size:20px;
+	font-weight:bold;
+	transition: all 0.3s ease;
+}
+.round-button:hover {
+	background-color: rgba(0,0,0,0.8);
+	box-shadow: 0px 0px 10px rgba(255,255,100,1);
+	text-shadow: 0px 0px 10px rgba(255,255,100,1);
+}
+
+#searchBarInput {
+	width: 90%;
+	font-size: 16px; /* Increase font-size */
+	padding: 12px 20px 12px 60px; /* Add some padding */
+	border: 2px solid lightgrey; /* Add a grey border */
+	margin-bottom: 12px; /* Add some space below the input */
+	background-image: url('search.png'); /* Add a search icon to input */
+	background-size: 30px;
+	background-position: 17px; /* Position the search icon */
+	background-repeat: no-repeat; /* Do not repeat the icon image */
+	border-radius: 10px;
+  }
