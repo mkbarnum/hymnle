@@ -27,7 +27,6 @@ html.dark {
 }
 
 #searchBarInput {
-	width: 90%;
 	font-size: 16px; /* Increase font-size */
 	padding: 12px 20px 12px 60px; /* Add some padding */
 	border: 2px solid lightgrey; /* Add a grey border */

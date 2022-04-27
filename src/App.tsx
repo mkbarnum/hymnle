@@ -42,6 +42,8 @@ import { useAlert } from "./context/AlertContext";
 import { Navbar } from "./components/navbar/Navbar";
 import { PlayButton } from "./components/music/PlayButton";
 import { SearchBar } from "./components/music/SearchBar";
+import { SubmitButton } from "./components/music/SubmitButton";
+import { SkipButton } from "./components/music/SkipButton";
 
 function App() {
   const prefersDarkMode = window.matchMedia(
@@ -261,14 +263,21 @@ function App() {
           />
         </div>
         <PlayButton setIsPlaying={setIsPlaying} isPlaying={isPlaying} />
-        <SearchBar></SearchBar>
+        <div className="max-w-screen-sm w-full mx-auto flex-col">
+          <SearchBar></SearchBar>
+          <div className="flex justify-between">
+            <SkipButton></SkipButton>
+            <SubmitButton></SubmitButton>
+          </div>
+        </div>
+{/* 
         <Keyboard
           onChar={onChar}
           onDelete={onDelete}
           onEnter={onEnter}
           guesses={guesses}
           isRevealing={isRevealing}
-        />
+        /> */}
         <InfoModal
           isOpen={isInfoModalOpen}
           handleClose={() => setIsInfoModalOpen(false)}
