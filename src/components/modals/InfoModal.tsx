@@ -1,4 +1,5 @@
 import { BaseModal } from "./BaseModal";
+import { MusicNoteIcon, LockOpenIcon, EmojiHappyIcon } from "@heroicons/react/outline"
 
 type Props = {
   isOpen: boolean;
@@ -21,6 +22,29 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         inspired game but with songs from The Church of Jesus Christ of
         Latter-day Saints.
       </p>
+
+      <div className="flex justify-center mb-1 mt-4">
+      <MusicNoteIcon className = "text-gray-600 dark:text-gray-300 mr-2 w-7"/>
+        <p className="text-sm text-gray-500 dark:text-gray-300 text-left">
+        Listen to the intro of the hymn, then guess the correct title.
+        </p>
+      </div>
+
+      <div className="flex justify-center mb-1 mt-4">
+        <LockOpenIcon className = "text-gray-600 dark:text-gray-300 mr-2 w-7" />
+        <p className="text-sm text-gray-500 dark:text-gray-300 text-left">
+        Skipped or incorrect attempts unlock more of the intro.
+        </p>
+      </div>
+
+      <div className="flex justify-center mb-1 mt-4">
+        <EmojiHappyIcon className = "text-gray-600 dark:text-gray-300 mr-2 w-7"/>
+        <p className="text-sm text-gray-500 dark:text-gray-300 text-left">
+          Answer in as few tries as possible and share your score!
+        </p>
+      </div>
+        
+
 
       <div className="flex justify-center mb-1 mt-4">
         <p className="text-sm text-gray-500 dark:text-gray-300">
