@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { InfoModal } from "./components/modals/InfoModal";
 import { StatsModal } from "./components/modals/StatsModal";
 import { SongModal } from "./components/modals/SongModal";
@@ -35,6 +36,7 @@ import { SubmitButton } from "./components/music/SubmitButton";
 import { SkipButton } from "./components/music/SkipButton";
 import { GameRows } from "./components/grid/GameRows";
 import { songTitles } from "./lib/searchbar";
+import PracticePage from "./practice/PracticePage";
 
 function App() {
   // ** State Management **
@@ -94,7 +96,7 @@ function App() {
   }, [isDarkMode]);
 
   useEffect(() => {
-    saveGameStateToLocalStorage({ guesses, solution });
+    saveGameStateToLocalStorage({ mode: 'game', guesses, solution });
   }, [guesses]);
 
   useEffect(() => {
@@ -105,7 +107,7 @@ function App() {
       fetch(`https://hymnle.com/game_won?guesses=${guesses.length}`, {
         method: "GET",
       });
-  
+
       window.gtag("event", "game_won", {
         event_category: "Game",
         event_label: "Hymnle Win",
@@ -117,7 +119,7 @@ function App() {
     if (isGameLost) {
       setTimeout(() => setIsSongModalOpen(true), 500);
     }
-  }, [isGameWon, isGameLost, showSuccessAlert, guesses.length]);  
+  }, [isGameWon, isGameLost, showSuccessAlert, guesses.length]);
 
   // ** Helper Functions **
 
@@ -202,66 +204,92 @@ function App() {
   // ** Render **
 
   return (
-    <div className="h-screen flex flex-col">
-      <Navbar
-        setIsInfoModalOpen={setIsInfoModalOpen}
-        setIsStatsModalOpen={setIsStatsModalOpen}
-        setIsSettingsModalOpen={setIsSettingsModalOpen}
-        isDarkMode={isDarkMode}
-      />
-      <div className="pt-2 px-1 pb-8 md:max-w-7xl w-full mx-auto sm:px-6 lg:px-8 flex flex-col grow">
-        <GameRows guesses={guesses} skippedRows={skippedRows} isGameWon={isGameWon} isDarkMode={isDarkMode} />
-        <PlayButton
-          audioUrl={solutionMp3Url}
-          isDarkMode={isDarkMode}
-          playDuration={isGameWon ? extendedPlayDuration : getPlayDuration()}
-          autoPlay={autoPlay}
-        />        <div className="max-w-screen-sm w-full mx-auto flex-col">
-          <SearchBar onSelect={onSelect} isDarkMode={isDarkMode} isDisabled={isGameWon || isGameLost} />
-          <div className="flex justify-between mt-4">
-            <>
-              <SkipButton onSkip={onSkip} timeAdded={timeAdded} isDarkMode={isDarkMode} isDisabled={isGameWon || isGameLost} />
-              <SubmitButton onClick={onEnter} isDisabled={isGameWon || isGameLost} />
-            </>
-          </div>
-        </div>
-        <InfoModal isOpen={isInfoModalOpen} handleClose={() => setIsInfoModalOpen(false)} />
-        <StatsModal
-          isOpen={isStatsModalOpen}
-          handleClose={() => setIsStatsModalOpen(false)}
-          guesses={guesses}
-          gameStats={stats}
-          isGameLost={isGameLost}
-          isGameWon={isGameWon}
-          handleShareToClipboard={() => showSuccessAlert(GAME_COPIED_MESSAGE)}
-          isHardMode={isHardMode}
-          isDarkMode={isDarkMode}
-          numberOfGuessesMade={guesses.length}
-        />
-        <SongModal
-          isOpen={isSongModalOpen}
-          handleClose={() => {
-            setIsSongModalOpen(false);
-            setIsStatsModalOpen(true);
-          }}
-          guesses={guesses}
-          isGameLost={isGameLost}
-          isGameWon={isGameWon}
-          handleShareToClipboard={() => showSuccessAlert(GAME_COPIED_MESSAGE)}
-          isHardMode={isHardMode}
+    <Router>
+      <div className="h-screen flex flex-col">
+        <Navbar
+          setIsInfoModalOpen={setIsInfoModalOpen}
+          setIsStatsModalOpen={setIsStatsModalOpen}
+          setIsSettingsModalOpen={setIsSettingsModalOpen}
           isDarkMode={isDarkMode}
         />
-        <SettingsModal
-          isOpen={isSettingsModalOpen}
-          handleClose={() => setIsSettingsModalOpen(false)}
-          isHardMode={isHardMode}
-          handleHardMode={handleHardMode}
-          isDarkMode={isDarkMode}
-          handleDarkMode={handleDarkMode}
-        />
-        <AlertContainer />
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={() => (
+              <div className="pt-2 px-1 pb-8 md:max-w-7xl w-full mx-auto sm:px-6 lg:px-8 flex flex-col grow">
+                <GameRows guesses={guesses} skippedRows={skippedRows} isGameWon={isGameWon} isDarkMode={isDarkMode} />
+                <PlayButton
+                  audioUrl={solutionMp3Url}
+                  isDarkMode={isDarkMode}
+                  playDuration={isGameWon ? extendedPlayDuration : getPlayDuration()}
+                  autoPlay={autoPlay}
+                />        <div className="max-w-screen-sm w-full mx-auto flex-col">
+                  <SearchBar onSelect={onSelect} isDarkMode={isDarkMode} isDisabled={isGameWon || isGameLost} />
+                  <div className="flex justify-between mt-4">
+                    <>
+                      <SkipButton onSkip={onSkip} timeAdded={timeAdded} isDarkMode={isDarkMode} isDisabled={isGameWon || isGameLost} />
+                      <SubmitButton onClick={onEnter} isDisabled={isGameWon || isGameLost} />
+                    </>
+                  </div>
+                </div>
+                <InfoModal isOpen={isInfoModalOpen} handleClose={() => setIsInfoModalOpen(false)} />
+                <StatsModal
+                  isOpen={isStatsModalOpen}
+                  handleClose={() => setIsStatsModalOpen(false)}
+                  guesses={guesses}
+                  gameStats={stats}
+                  isGameLost={isGameLost}
+                  isGameWon={isGameWon}
+                  handleShareToClipboard={() => showSuccessAlert(GAME_COPIED_MESSAGE)}
+                  isHardMode={isHardMode}
+                  isDarkMode={isDarkMode}
+                  numberOfGuessesMade={guesses.length}
+                />
+                <SongModal
+                  isOpen={isSongModalOpen}
+                  handleClose={() => {
+                    setIsSongModalOpen(false);
+                    setIsStatsModalOpen(true);
+                  }}
+                  guesses={guesses}
+                  isGameLost={isGameLost}
+                  isGameWon={isGameWon}
+                  handleShareToClipboard={() => showSuccessAlert(GAME_COPIED_MESSAGE)}
+                  isHardMode={isHardMode}
+                  isDarkMode={isDarkMode}
+                />
+                <SettingsModal
+                  isOpen={isSettingsModalOpen}
+                  handleClose={() => setIsSettingsModalOpen(false)}
+                  isHardMode={isHardMode}
+                  handleHardMode={handleHardMode}
+                  isDarkMode={isDarkMode}
+                  handleDarkMode={handleDarkMode}
+                />
+                <AlertContainer />
+              </div>
+            )}
+          />
+          <Route
+            exact
+            path="/practice"
+            render={() => (
+              <PracticePage
+                isInfoModalOpen={isInfoModalOpen}
+                setIsInfoModalOpen={setIsInfoModalOpen}
+                isStatsModalOpen={isStatsModalOpen}
+                setIsStatsModalOpen={setIsStatsModalOpen}
+                isSongModalOpen={isSongModalOpen}
+                setIsSongModalOpen={setIsSongModalOpen}
+                isSettingsModalOpen={isSettingsModalOpen}
+                setIsSettingsModalOpen={setIsSettingsModalOpen}
+              />
+            )}
+          />
+        </Switch>
       </div>
-    </div>
+    </Router>
   );
 }
 
