@@ -12,7 +12,8 @@ type Props = {
 export const PlayButton = ({ audioUrl, playDuration, isDarkMode = false, autoPlay = false }: Props) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [remainingTime, setRemainingTime] = useState(playDuration); // Sync with playDuration
+  const [remainingTime, setRemainingTime] = useState(playDuration);
+  const [isFirstPlayback, setIsFirstPlayback] = useState(true);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -88,14 +89,25 @@ export const PlayButton = ({ audioUrl, playDuration, isDarkMode = false, autoPla
     audio.pause();
     audio.currentTime = 0;
     setRemainingTime(playDuration);
-    audio.volume = autoPlay ? 0.5 : 1; // Adjust volume based on autoPlay
-    audio.play();
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => {
-      audio.pause();
-      setIsPlaying(false);
-      setRemainingTime(playDuration);
-    }, playDuration * 1000);
+
+    // Determine the buffer dynamically
+    const buffer = isFirstPlayback ? 0 : 100; // Add 50ms buffer only after the first playback
+
+    audio.volume = autoPlay ? 0.5 : 1; // Adjust volume for autoPlay
+    audio.play().then(() => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+
+      timerRef.current = setTimeout(() => {
+        audio.pause();
+        setIsPlaying(false);
+        setRemainingTime(playDuration);
+      }, playDuration * 1000 + buffer); // Apply the buffer conditionally
+    });
+
+    // Set the flag to false after the first playback
+    if (isFirstPlayback) {
+      setIsFirstPlayback(false);
+    }
   };
 
   const togglePlayPause = () => {

@@ -29,7 +29,7 @@ export const SongModal = ({
         <a
           href={songUrl}
           target="_blank"
-          className="underline font-bold text-[#25c77ef5]"
+          className={`underline font-bold ${isDarkMode ? "text-[#25c77ef5]" : "text-[#185642]"}`}
           rel="noreferrer"
           tabIndex={-1}
         >
@@ -41,7 +41,7 @@ export const SongModal = ({
         <a
           href="https://comefollowmedle.com"
           target="_blank"
-          className="underline font-bold text-[#25c77ef5]"
+          className={`underline font-bold ${isDarkMode ? "text-[#25c77ef5]" : "text-[#185642]"}`}
           rel="noreferrer"
           tabIndex={-1}
         >

@@ -102,9 +102,6 @@ function App() {
       const winMessage = WIN_MESSAGE(guesses.length);
       showSuccessAlert(winMessage, { delayMs: 500, persist: true });
       setTimeout(() => setIsSongModalOpen(true), 2500);
-      fetch(`https://hymnle.com/game_won?guesses=${guesses.length}`, {
-        method: "GET",
-      });
   
       window.gtag("event", "game_won", {
         event_category: "Game",
