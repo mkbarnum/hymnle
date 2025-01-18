@@ -17,7 +17,8 @@ import {
 import {
   isWinningSong,
   solution,
-  solutionMp3Url
+  solutionMp3Url,
+  playFrom
 } from "./lib/songs";
 import { addStatsForCompletedGame, loadStats } from "./lib/stats";
 import {
@@ -213,7 +214,9 @@ function App() {
           isDarkMode={isDarkMode}
           playDuration={isGameWon ? extendedPlayDuration : getPlayDuration()}
           autoPlay={autoPlay}
-        />        <div className="max-w-screen-sm w-full mx-auto flex-col">
+          playFrom={playFrom}
+        />        
+        <div className="max-w-screen-sm w-full mx-auto flex-col">
           <SearchBar onSelect={onSelect} isDarkMode={isDarkMode} isDisabled={isGameWon || isGameLost} />
           <div className="flex justify-between mt-4">
             <>

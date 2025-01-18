@@ -6,10 +6,11 @@ type Props = {
   audioUrl: string;
   playDuration: number;
   isDarkMode: boolean;
-  autoPlay?: boolean; // Optional auto-play prop
+  autoPlay?: boolean;
+  playFrom?: number;
 };
 
-export const PlayButton = ({ audioUrl, playDuration, isDarkMode = false, autoPlay = false }: Props) => {
+export const PlayButton = ({ audioUrl, playDuration, isDarkMode = false, autoPlay = false, playFrom = 0 }: Props) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [remainingTime, setRemainingTime] = useState(playDuration);
@@ -87,8 +88,10 @@ export const PlayButton = ({ audioUrl, playDuration, isDarkMode = false, autoPla
     if (!audioRef.current) return;
     const audio = audioRef.current;
     audio.pause();
-    audio.currentTime = 0;
+    audio.currentTime = playFrom / 1000;
     setRemainingTime(playDuration);
+
+    console.log(playFrom)
 
     // Determine the buffer dynamically
     const buffer = isFirstPlayback ? 0 : 100; // Add 50ms buffer only after the first playback

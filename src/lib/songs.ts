@@ -13,6 +13,7 @@ export const getSongOfDay = () => {
   const song = SONG_OF_THE_DAY[(index % SONG_OF_THE_DAY.length) + Number(daysFromToday)];
   let bookSuffix = song.book === "CHILDREN'S" ? " (Children's)" : "";
   let solution = `${song.number}. ${song.title}${bookSuffix}`;
+  const playFrom = song.playFrom ?? 0;
 
   return {
     solution,
@@ -20,10 +21,11 @@ export const getSongOfDay = () => {
     tomorrow: nextday,
     solutionMp3Url: song.mp3_url,
     songUrl: song.url,
+    playFrom: playFrom
   };
 };
 
-export let { solution, solutionIndex, tomorrow, solutionMp3Url, songUrl } = getSongOfDay();
+export let { solution, solutionIndex, tomorrow, solutionMp3Url, songUrl, playFrom } = getSongOfDay();
 
 export const isWinningSong = (song: string) => {
   return solution === song;
