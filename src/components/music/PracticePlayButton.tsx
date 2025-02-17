@@ -8,9 +8,11 @@ type Props = {
   isDarkMode: boolean;
   autoPlay?: boolean;
   playFrom?: number;
+  onPlayStart?: () => void; // New prop
 };
 
-export const PlayButton = ({ audioUrl, playDuration, isDarkMode = false, autoPlay = false, playFrom = 0 }: Props) => {
+
+export const PracticePlayButton = ({ audioUrl, playDuration, isDarkMode = false, autoPlay = false, playFrom = 0, onPlayStart }: Props) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [remainingTime, setRemainingTime] = useState(playDuration);
@@ -113,7 +115,7 @@ export const PlayButton = ({ audioUrl, playDuration, isDarkMode = false, autoPla
 
   const togglePlayPause = () => {
     if (!audioRef.current || isLoading) return;
-
+  
     const audio = audioRef.current;
     if (isPlaying) {
       audio.pause();
@@ -122,8 +124,13 @@ export const PlayButton = ({ audioUrl, playDuration, isDarkMode = false, autoPla
     } else {
       audio.volume = 1; // Reset to full volume for manual play
       resetAudioAndTimer();
+      
+      if (onPlayStart) {
+        setTimeout(() => onPlayStart()); // Delay GIF by 2 seconds
+      }
     }
   };
+  
 
   return (
     <div className="flex items-center justify-center space-x-4">
@@ -153,7 +160,7 @@ export const PlayButton = ({ audioUrl, playDuration, isDarkMode = false, autoPla
           isDarkMode ? "text-gray-300" : "text-[#185642]"
         }`}
       >
-        {formatTime(remainingTime)}
+        {formatTime(1)}
       </div>
     </div>
   );
