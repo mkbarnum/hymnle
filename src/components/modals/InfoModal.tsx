@@ -53,8 +53,15 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
       </div>
 
       <div className="flex justify-center mb-1 mt-4">
-        <p className="text-sm text-gray-500 dark:text-gray-300">
-        </p>
+        <a
+          href="/legal.html"
+          target="_blank"
+          className="text-xs text-gray-400 dark:text-gray-500 underline hover:text-gray-600 dark:hover:text-gray-300"
+          rel="noreferrer"
+          tabIndex={-1}
+        >
+          Legal Disclaimer
+        </a>
       </div>
     </BaseModal>
   );

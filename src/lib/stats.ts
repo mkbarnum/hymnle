@@ -15,7 +15,7 @@ export const addStatsForCompletedGame = (
   const stats = { ...gameStats }
   stats.totalGames += 1
 
-  if (count >= MAX_CHALLENGES) {
+  if (count > MAX_CHALLENGES) {
     // A fail situation
     stats.currentStreak = 0
     stats.gamesFailed += 1

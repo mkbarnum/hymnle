@@ -15,7 +15,8 @@ import {
 import {
   isWinningSong,
   solution,
-  solutionMp3Url
+  solutionMp3Url,
+  playFrom
 } from "./lib/practice";
 import {
   loadGameStateFromLocalStorage,
@@ -48,7 +49,7 @@ function Practice() {
   const [isStatsModalOpen, setIsStatsModalOpen] = useState(false);
   const [showGif, setShowGif] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
-  const [gifInstances, setGifInstances] = useState<{ id: number; x: number; y: number; size: number; }[]>([]);
+  const [gifInstances, setGifInstances] = useState<{ id: number; x: number; y: number; size: number; imageIndex: number}[]>([]);
   const [isDarkMode, setIsDarkMode] = useState(
     localStorage.getItem("theme")
       ? localStorage.getItem("theme") === "dark"
@@ -193,6 +194,8 @@ function Practice() {
     });
   };
 
+  const imageSequence = ["/1.jpeg", "/2.jpeg", "/3.jpeg"];
+
   // ** Render **
 
   return (
@@ -210,8 +213,9 @@ function Practice() {
           isDarkMode={isDarkMode}
           playDuration={isGameWon ? extendedPlayDuration : getPlayDuration()}
           autoPlay={autoPlay}
+          playFrom={playFrom}
           onPlayStart={() => {
-            for (let i = 0; i < 1000; i++) {
+            for (let i = 0; i < 500; i++) {
               setTimeout(() => {
                 setGifInstances((prev) => [
                   ...prev,
@@ -220,22 +224,23 @@ function Practice() {
                     x: Math.random() * (window.innerWidth - 200), // Avoids clipping off-screen
                     y: Math.random() * window.innerHeight * 0.8, // Random Y position
                     size: Math.random() * 100 + 130, // Random size between 50px and 150px
+                    imageIndex: prev.length % imageSequence.length, // Cycle through images
                   },
                 ]);
-
-                // Remove GIF after a random duration (between 2-5 seconds)
+          
+                // Remove the image after a random duration (between 2-5 seconds)
                 setTimeout(() => {
                   setGifInstances((prev) => prev.filter((gif) => gif.id !== i));
                 }, Math.random() * 3000 + 2000);
-              }, Math.random() * 200000 + 1000); // Delay appearance randomly between 0-5 seconds
+              }, Math.random() * 200000 + 1500); // Delay appearance randomly between 0-5 seconds
             }
           }}
         />
         {gifInstances.map((gif) => (
           <img
             key={gif.id}
-            src="/rick-roll.gif"
-            alt="Rick Roll"
+            src={imageSequence[gif.imageIndex]} // Cycles through the image list
+            alt="Animated"
             style={{
               position: "absolute",
               top: `${gif.y}px`,

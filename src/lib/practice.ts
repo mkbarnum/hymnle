@@ -19,12 +19,13 @@ import { SONGS } from '../constants/allSongs';
 export const getRandomSong = () => {
     return {
     solution: "Never Gonna Give You Up",
-    solutionMp3Url: "/rick.MP3",
+    solutionMp3Url: "/baby.mp3",
     songUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    playFrom: 1000,
   };
 }
 
-export let { solution, solutionMp3Url, songUrl } = getRandomSong();
+export let { solution, solutionMp3Url, songUrl, playFrom } = getRandomSong();
 
 export const isWinningSong = (song: string) => {
   return solution === song;

@@ -55,6 +55,22 @@ export const PlayButton = ({ audioUrl, playDuration, isDarkMode = false, autoPla
   }, [playDuration]);
 
   useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden && audioRef.current && !audioRef.current.paused) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+        if (timerRef.current) clearTimeout(timerRef.current);
+        if (intervalRef.current) clearInterval(intervalRef.current);
+      }
+    };
+  
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+
+  useEffect(() => {
     if (autoPlay && !isPlaying) {
       // Add 2-second delay before starting playback and reduce volume
       const autoPlayTimeout = setTimeout(() => {
