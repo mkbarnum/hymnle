@@ -1,6 +1,7 @@
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Transition } from '@headlessui/react'
 import classNames from 'classnames'
+import { useAlert } from '../../context/AlertContext'
 
 type Props = {
   isOpen: boolean
@@ -15,8 +16,17 @@ export const Alert = ({
   variant = 'error',
   topMost = false,
 }: Props) => {
+  const { dismiss } = useAlert()
+
+  useEffect(() => {
+    if (isOpen) {
+      const timer = setTimeout(() => dismiss(), 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [isOpen, dismiss])
+
   const classes = classNames(
-    'fixed z-20 top-14 left-1/2 transform -translate-x-1/2 max-w-sm shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden',
+    'fixed z-20 top-14 left-1/2 transform -translate-x-1/2 max-w-sm shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden cursor-pointer',
     {
       'bg-rose-500 text-white': variant === 'error',
       'bg-blue-500 text-white': variant === 'success',
@@ -34,7 +44,7 @@ export const Alert = ({
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
     >
-      <div className={classes}>
+      <div className={classes} onClick={dismiss}>
         <div className="p-2">
           <p className="text-sm text-center font-medium">{message}</p>
         </div>

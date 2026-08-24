@@ -1,32 +1,44 @@
-import { UploadIcon } from '@heroicons/react/outline';
-import { SONGS } from '../constants/allSongs';
+import { SONG_OF_THE_DAY } from '../constants/songOfTheDay';
+import { UNUSED_SONGS } from '../constants/unusedSongs';
 
-// export const getRandomSong = () => {
-//   const randomIndex = Math.floor(Math.random() * 598); // Get a random index from 0 to 597
-//   const song = SONGS[randomIndex];
+const ALL_PRACTICE_SONGS = [...SONG_OF_THE_DAY, ...UNUSED_SONGS];
 
-//   let bookSuffix = song.book === "CHILDREN'S" ? " (Children's)" : "";
-//   let solution = `${song.number}. ${song.title}${bookSuffix}`;
+export type PracticeSong = {
+  solution: string;
+  solutionMp3Url: string;
+  songUrl: string;
+  playFrom: number;
+};
 
-//   return {
-//     solution,
-//     solutionIndex: randomIndex,
-//     solutionMp3Url: song.mp3_url,
-//     songUrl: song.url,
-//   };
-// };
-
-export const getRandomSong = () => {
-    return {
-    solution: "Never Gonna Give You Up",
-    solutionMp3Url: "/baby.mp3",
-    songUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    playFrom: 1000,
+export const getRandomSong = (): PracticeSong => {
+  const randomIndex = Math.floor(Math.random() * ALL_PRACTICE_SONGS.length);
+  const song = ALL_PRACTICE_SONGS[randomIndex];
+  const book = (song as any).book;
+  const bookSuffix = book === "CHILDREN'S" ? " (Children's)" : "";
+  
+  return {
+    solution: `${song.number}. ${song.title}${bookSuffix}`,
+    solutionMp3Url: song.mp3_url,
+    songUrl: song.url,
+    playFrom: (song as any).playFrom ?? 0,
   };
-}
+};
 
-export let { solution, solutionMp3Url, songUrl, playFrom } = getRandomSong();
+let currentSong = getRandomSong();
+
+export const getCurrentSong = () => currentSong;
+
+export const setNewRandomSong = () => {
+  currentSong = getRandomSong();
+  return currentSong;
+};
 
 export const isWinningSong = (song: string) => {
-  return solution === song;
+  return currentSong.solution === song;
 };
+
+// For backward compatibility
+export const solution = currentSong.solution;
+export const solutionMp3Url = currentSong.solutionMp3Url;
+export const songUrl = currentSong.songUrl;
+export const playFrom = currentSong.playFrom;

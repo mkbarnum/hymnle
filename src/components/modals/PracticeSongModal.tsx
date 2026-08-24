@@ -1,5 +1,8 @@
 import { BaseModal } from "./BaseModal";
-import { songUrl, solution } from "../../lib/songs";
+import { GameStats } from "../../lib/localStorage";
+import { StatBar } from "../stats/StatBar";
+import { Histogram } from "../stats/Histogram";
+import { GUESS_DISTRIBUTION_TEXT } from "../../constants/strings";
 
 type Props = {
   isOpen: boolean;
@@ -10,6 +13,10 @@ type Props = {
   handleShareToClipboard: () => void;
   isHardMode: boolean;
   isDarkMode: boolean;
+  solution: string;
+  songUrl: string;
+  onPlayAgain: () => void;
+  practiceStats: GameStats;
 };
 
 export const PracticeSongModal = ({
@@ -20,6 +27,10 @@ export const PracticeSongModal = ({
   handleShareToClipboard,
   isHardMode,
   isDarkMode,
+  solution,
+  songUrl,
+  onPlayAgain,
+  practiceStats,
 }: Props) => {
   return (
     <BaseModal title="" isOpen={isOpen} handleClose={handleClose}>
@@ -35,24 +46,32 @@ export const PracticeSongModal = ({
           {solution}
         </a>
       </div>
-      <div className={`text-base mt-6 ${isDarkMode ? "text-gray-300" : "text-black"}`}>
-        Great Job! Keep up the good work.
-      </div>
+      
+      <StatBar gameStats={practiceStats} />
+      
+      {practiceStats.totalGames > 0 && (
+        <>
+          <h4 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
+            {GUESS_DISTRIBUTION_TEXT}
+          </h4>
+          <Histogram
+            gameStats={practiceStats}
+            numberOfGuessesMade={guesses.length}
+          />
+        </>
+      )}
+
       <div className={`mt-5 sm:mt-6 px-20 ${isDarkMode ? "text-gray-300" : "text-black"}`}>
-        <div>
-          <button
-            type="button"
-            className={`mt-2 w-full rounded-md border border-transparent shadow-sm px-4 py-2 ${
-              isDarkMode ? "bg-[#185642] text-white hover:bg-[#185642]" : "bg-[#185642] text-white hover:bg-[#185642]"
-            } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#185642] sm:text-sm`}
-            onClick={() => {
-              window.location.reload();
-            }}
-            tabIndex={-1}
-          >
-            Play Again
-          </button>
-        </div>
+        <button
+          type="button"
+          className={`mt-2 w-full rounded-md border border-transparent shadow-sm px-4 py-2 ${
+            isDarkMode ? "bg-[#185642] text-white hover:bg-[#185642]" : "bg-[#185642] text-white hover:bg-[#185642]"
+          } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#185642] sm:text-sm`}
+          onClick={onPlayAgain}
+          tabIndex={-1}
+        >
+          Play Again
+        </button>
       </div>
     </BaseModal>
   );

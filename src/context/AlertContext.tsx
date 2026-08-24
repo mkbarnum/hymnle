@@ -22,6 +22,7 @@ type AlertContextValue = {
   isVisible: boolean
   showSuccess: (message: string, options?: ShowOptions) => void
   showError: (message: string, options?: ShowOptions) => void
+  dismiss: () => void
 }
 
 export const AlertContext = createContext<AlertContextValue | null>({
@@ -30,6 +31,7 @@ export const AlertContext = createContext<AlertContextValue | null>({
   isVisible: false,
   showSuccess: () => null,
   showError: () => null,
+  dismiss: () => null,
 })
 AlertContext.displayName = 'AlertContext'
 
@@ -85,6 +87,10 @@ export const AlertProvider = ({ children }: Props) => {
     [show]
   )
 
+  const dismiss = useCallback(() => {
+    setIsVisible(false)
+  }, [])
+
   return (
     <AlertContext.Provider
       value={{
@@ -93,6 +99,7 @@ export const AlertProvider = ({ children }: Props) => {
         isVisible,
         showError,
         showSuccess,
+        dismiss,
       }}
     >
       {children}

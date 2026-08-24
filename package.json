@@ -33,7 +33,7 @@
     "start": "react-scripts start",
     "test": "react-scripts test",
     "prepare": "husky install",
-    "deploy": "aws s3 sync build/ s3://hymnle.com && aws cloudfront create-invalidation --distribution-id EPK6D8L9Z7YPE --paths '/*'"
+    "deploy": "aws s3 sync build/ s3://hymnle.com --profile personal && aws cloudfront create-invalidation --distribution-id EPK6D8L9Z7YPE --paths '/*' --profile personal"
   },
   "eslintConfig": {
     "extends": [

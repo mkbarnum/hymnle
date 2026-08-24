@@ -10,16 +10,25 @@ type Props = {
   gameStats: GameStats
 }
 
+const getStreakEmoji = (streak: number): string => {
+  if (streak >= 15) return '🔥'
+  if (streak >= 10) return '⭐'
+  if (streak >= 5) return '✨'
+  return '🧊'
+}
+
 const StatItem = ({
   label,
   value,
+  emoji,
 }: {
   label: string
   value: string | number
+  emoji?: string
 }) => {
   return (
     <div className="items-center justify-center m-1 w-1/4 dark:text-white">
-      <div className="text-3xl font-bold">{value}</div>
+      <div className="text-3xl font-bold">{value}{emoji && ` ${emoji}`}</div>
       <div className="text-xs">{label}</div>
     </div>
   )
@@ -30,7 +39,7 @@ export const StatBar = ({ gameStats }: Props) => {
     <div className="flex justify-center my-2">
       <StatItem label={TOTAL_TRIES_TEXT} value={gameStats.totalGames} />
       <StatItem label={SUCCESS_RATE_TEXT} value={`${gameStats.successRate}%`} />
-      <StatItem label={CURRENT_STREAK_TEXT} value={gameStats.currentStreak} />
+      <StatItem label={CURRENT_STREAK_TEXT} value={gameStats.currentStreak} emoji={getStreakEmoji(gameStats.currentStreak)} />
       <StatItem label={BEST_STREAK_TEXT} value={gameStats.bestStreak} />
     </div>
   )

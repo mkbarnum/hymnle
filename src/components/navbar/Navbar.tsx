@@ -37,7 +37,7 @@ export const Navbar = ({
             {routerLocation.pathname === '/practice' ? (
               <>
                 {GAME_TITLE}
-                <span className="text-xs font-semibold text-white bg-red-500 rounded-full px-2 py-1 ml-2">Practice</span>
+                <span className="text-xs font-semibold text-white bg-red-500 rounded-full px-2 py-1 ml-2">Endless</span>
               </>
             ) : (
               GAME_TITLE

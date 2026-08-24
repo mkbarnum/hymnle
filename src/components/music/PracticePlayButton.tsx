@@ -8,11 +8,13 @@ type Props = {
   isDarkMode: boolean;
   autoPlay?: boolean;
   playFrom?: number;
-  onPlayStart?: () => void; // New prop
+  onPlayStart?: () => void;
+  showPlayAgain?: boolean;
+  onPlayAgain?: () => void;
 };
 
 
-export const PracticePlayButton = ({ audioUrl, playDuration, isDarkMode = false, autoPlay = false, playFrom = 0, onPlayStart }: Props) => {
+export const PracticePlayButton = ({ audioUrl, playDuration, isDarkMode = false, autoPlay = false, playFrom = 0, onPlayStart, showPlayAgain = false, onPlayAgain }: Props) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [remainingTime, setRemainingTime] = useState(playDuration);
@@ -134,34 +136,47 @@ export const PracticePlayButton = ({ audioUrl, playDuration, isDarkMode = false,
 
   return (
     <div className="flex items-center justify-center space-x-4">
-      <div className="flex items-center">
-        {isLoading ? (
-          <div className="w-14 h-14 flex items-center justify-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 dark:border-gray-400"></div>
+      {showPlayAgain ? (
+        <button
+          className={`px-6 py-2 rounded-md font-semibold text-white ${
+            isDarkMode ? "bg-[#185642]" : "bg-[#185642]"
+          }`}
+          onClick={onPlayAgain}
+        >
+          Play Again
+        </button>
+      ) : (
+        <>
+          <div className="flex items-center">
+            {isLoading ? (
+              <div className="w-14 h-14 flex items-center justify-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 dark:border-gray-400"></div>
+              </div>
+            ) : isPlaying ? (
+              <PauseIcon
+                className={`w-14 h-14 cursor-pointer ${
+                  isDarkMode ? "text-gray-500" : "text-[#185642]"
+                }`}
+                onClick={togglePlayPause}
+              />
+            ) : (
+              <PlayIcon
+                className={`w-14 h-14 cursor-pointer ${
+                  isDarkMode ? "text-gray-300" : "text-[#185642]"
+                }`}
+                onClick={togglePlayPause}
+              />
+            )}
           </div>
-        ) : isPlaying ? (
-          <PauseIcon
-            className={`w-14 h-14 cursor-pointer ${
-              isDarkMode ? "text-gray-500" : "text-[#185642]"
-            }`}
-            onClick={togglePlayPause}
-          />
-        ) : (
-          <PlayIcon
-            className={`w-14 h-14 cursor-pointer ${
+          <div
+            className={`text-xl font-semibold ${
               isDarkMode ? "text-gray-300" : "text-[#185642]"
             }`}
-            onClick={togglePlayPause}
-          />
-        )}
-      </div>
-      <div
-        className={`text-xl font-semibold ${
-          isDarkMode ? "text-gray-300" : "text-[#185642]"
-        }`}
-      >
-        {formatTime(1)}
-      </div>
+          >
+            {formatTime(remainingTime)}
+          </div>
+        </>
+      )}
     </div>
   );
 };

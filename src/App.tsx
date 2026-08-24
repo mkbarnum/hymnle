@@ -105,15 +105,20 @@ function App() {
       setTimeout(() => setIsSongModalOpen(true), 2500);
   
       window.gtag("event", "game_won", {
-        event_category: "Game",
-        event_label: "Hymnle Win",
-        value: guesses.length,
+        mode: "daily",
+        guesses: guesses.length,
+        hard_mode: isHardMode,
       });
 
       setAutoPlay(true);
     }
     if (isGameLost) {
       setTimeout(() => setIsSongModalOpen(true), 500);
+      window.gtag("event", "game_lost", {
+        mode: "daily",
+        guesses: guesses.length,
+        hard_mode: isHardMode,
+      });
     }
   }, [isGameWon, isGameLost, showSuccessAlert, guesses.length]);  
 
@@ -165,6 +170,7 @@ function App() {
     if (hymn && currentTurn <= MAX_CHALLENGES && !isGameWon) {
       setGuesses([...guesses, currentGuess]);
       setCurrentGuess("");
+      window.gtag("event", "guess_made", { mode: "daily", guess_number: currentTurn, is_skip: false });
 
       if (winningSong) {
         setStats(addStatsForCompletedGame(stats, guesses.length + 1));
@@ -185,6 +191,7 @@ function App() {
 
   const onSkip = () => {
     if (currentTurn > MAX_CHALLENGES) return showErrorAlert("No more guesses left");
+    window.gtag("event", "guess_made", { mode: "daily", guess_number: currentTurn, is_skip: true });
     setSkippedRows((prev) => [...prev, currentTurn - 1]);
     setGuesses((prevGuesses) => {
       const updatedGuesses = [...prevGuesses, "SKIPPED"];
